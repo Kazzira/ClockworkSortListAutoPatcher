@@ -14,6 +14,16 @@ public static class ClockworkFormLists
         public static readonly FormLinkGetter<IFormListGetter> MageStudy = FormKey.Factory("03E9F6:Clockwork.esp").ToLink<IFormListGetter>();
         public static readonly FormLinkGetter<IFormListGetter> WorkRoom  = FormKey.Factory("03EA00:Clockwork.esp").ToLink<IFormListGetter>();
     }
+
+    public static class Kitchen
+    {
+        public static readonly FormLinkGetter<IFormListGetter> FoodCheese         = FormKey.Factory("02D198:Clockwork.esp").ToLink<IFormListGetter>();
+        public static readonly FormLinkGetter<IFormListGetter> FoodMeat           = FormKey.Factory("02D199:Clockwork.esp").ToLink<IFormListGetter>();
+        public static readonly FormLinkGetter<IFormListGetter> FoodPrepared       = FormKey.Factory("02D19A:Clockwork.esp").ToLink<IFormListGetter>();
+        public static readonly FormLinkGetter<IFormListGetter> FoodDrink          = FormKey.Factory("02D19B:Clockwork.esp").ToLink<IFormListGetter>();
+        public static readonly FormLinkGetter<IFormListGetter> FoodFruitVegetable = FormKey.Factory("02D19C:Clockwork.esp").ToLink<IFormListGetter>();
+    }
+
     public static class MageStudyRoom
     {
         public static class BookLetter
@@ -50,5 +60,14 @@ public static class ClockworkFormLists
         public static readonly FormLinkGetter<IFormListGetter> Scrolls            = FormKey.Factory("02D711:Clockwork.esp").ToLink<IFormListGetter>();
         public static readonly FormLinkGetter<IFormListGetter> SoulGemsEmpty      = FormKey.Factory("02CC20:Clockwork.esp").ToLink<IFormListGetter>();
         public static readonly FormLinkGetter<IFormListGetter> SoulGemsFilled     = FormKey.Factory("02CC21:Clockwork.esp").ToLink<IFormListGetter>();
+    }
+
+    public static class WorkRoom
+    {
+        public static readonly FormLinkGetter<IFormListGetter> Ores                 = FormKey.Factory("038DEC:Clockwork.esp").ToLink<IFormListGetter>();
+        public static readonly FormLinkGetter<IFormListGetter> Ingots               = FormKey.Factory("038DED:Clockwork.esp").ToLink<IFormListGetter>();
+        public static readonly FormLinkGetter<IFormListGetter> Gems                 = FormKey.Factory("038DEE:Clockwork.esp").ToLink<IFormListGetter>();
+        public static readonly FormLinkGetter<IFormListGetter> Hides                = FormKey.Factory("038DEF:Clockwork.esp").ToLink<IFormListGetter>();
+        public static readonly FormLinkGetter<IFormListGetter> AssortedSmithingMats = FormKey.Factory("038DF0:Clockwork.esp").ToLink<IFormListGetter>();
     }
 }

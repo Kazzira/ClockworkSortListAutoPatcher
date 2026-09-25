@@ -47,7 +47,8 @@ public partial class MageStudyPatcher(
     private static partial Regex BookNameRegex();
 
 
-    private bool HasError = false;
+    private readonly List<string> ErrorMessages = [];
+
 
     private MageStudyRoomFormListOverrides FormListOverrides = null!;
     private FormListOverride MageStudyRoomFormListOverride = null!;
@@ -56,8 +57,7 @@ public partial class MageStudyPatcher(
     {
         FormListOverride Error(string message)
         {
-            Console.WriteLine($"[ClockworkSortListAutoPatcher] Error: {message}");
-            //HasError = true;
+            ErrorMessages.Add(message);
             return FormListOverrides.BookLetterYZ;
         }
 
@@ -165,6 +165,20 @@ public partial class MageStudyPatcher(
         MageStudyRoomFormListOverride = new(GetFormListOverride(ClockworkFormLists.Rooms.MageStudy), false);
     }
 
+    private void OutputErrorMessagesIfAny()
+    {
+        if (ErrorMessages.Count > 0)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("[ClockworkSortListAutoPatcher] The following errors were encountered during patching:");
+
+            foreach (var message in ErrorMessages)
+            {
+                Console.WriteLine($"[ClockworkSortListAutoPatcher] Error: {message}");
+            }
+        }
+    }
+
     private void AddBookToRoomFormList(IBookGetter book)
     {
         if (book.Name?.String is null)
@@ -223,6 +237,17 @@ public partial class MageStudyPatcher(
         }
     }
 
+    private void AddScrollToFormList(IBookGetter scroll)
+    {
+        if (!FormListOverrides.BookSpellTomes.FormList.Items.Contains(scroll.FormKey))
+        {
+            FormListOverrides.BookSpellTomes.FormList.Items.Add(scroll.FormKey);
+            FormListOverrides.BookSpellTomes.Overriden = true;
+        }
+
+        TryAddToMageStudyRoomFormList(scroll.FormKey);
+    }
+
     private void AddSoulGemToFormList(ISoulGemGetter soulGem)
     {
         bool empty = !soulGem.LinkedTo.IsNull;
@@ -268,11 +293,6 @@ public partial class MageStudyPatcher(
         var books = State.LoadOrder.PriorityOrder.WinningOverrides<IBookGetter>().Where(Condition).ToList();
 
         books.ForEach(AddBookToRoomFormList);
-
-        if (HasError)
-        {
-            throw new Exception("[ClockworkSortListAutoPatcher] Errors occurred while patching books. Please check the logs for details.");
-        }
     }
 
     private void PatchIngredients()
@@ -290,6 +310,14 @@ public partial class MageStudyPatcher(
         var notes = State.LoadOrder.PriorityOrder.WinningOverrides<IBookGetter>().Where(noteCondition).ToList();
 
         notes.ForEach(AddNoteToFormList);
+    }
+
+    private void PatchScrolls()
+    {
+        var scrollCondition = (IBookGetter book) => book.Keywords?.Contains(Skyrim.Keyword.VendorItemScroll) ?? false;
+        var scrolls = State.LoadOrder.PriorityOrder.WinningOverrides<IBookGetter>().Where(scrollCondition).ToList();
+
+        scrolls.ForEach(AddScrollToFormList);
     }
 
     private void PatchSoulGems()
@@ -317,9 +345,12 @@ public partial class MageStudyPatcher(
         PatchBooks();
         PatchIngredients();
         PatchNotes();
+        PatchScrolls();
         PatchSoulGems();
         PatchSpellTomes();
 
         AddOverridesToPatchMod();
+
+        OutputErrorMessagesIfAny();
     }
 }
