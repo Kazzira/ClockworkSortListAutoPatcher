@@ -1,0 +1,11 @@
+{
+  "Nickname": "Clockwork Sort List Auto Patcher",
+  "Visibility": "Invisible",
+  "OneLineDescription": "",
+  "LongDescription": "",
+  "PreferredAutoVersioning": "Default",
+  "RequiredMods": ["Clockwork.esp"],
+  "TargetedReleases": [
+    "SkyrimSE"
+  ]
+}
