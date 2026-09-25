@@ -57,7 +57,7 @@ public partial class MageStudyPatcher(
         FormListOverride Error(string message)
         {
             Console.WriteLine($"[ClockworkSortListAutoPatcher] Error: {message}");
-            HasError = true;
+            //HasError = true;
             return FormListOverrides.BookLetterYZ;
         }
 
@@ -73,7 +73,6 @@ public partial class MageStudyPatcher(
 
         return bookName.ToUpper() switch
         {
-            "..." => FormListOverrides.BookLetterYZ,
             var s when s.StartsWith('A') => FormListOverrides.BookLetterA,
             var s when s.StartsWith('B') => FormListOverrides.BookLetterB,
             var s when s.StartsWith('C') => FormListOverrides.BookLetterC,
