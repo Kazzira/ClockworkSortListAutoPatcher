@@ -70,14 +70,6 @@ public partial class MageStudyPatcher(
 
         bookName = match.Groups[2].Value;
 
-        var match = BookNameRegex().Match(bookName);
-
-        if (!match.Success)
-        {
-            return Error($"Book name '{bookName}' does not match the expected pattern.");
-        }
-
-        bookName = match.Groups[2].Value;
 
         return bookName.ToUpper() switch
         {
