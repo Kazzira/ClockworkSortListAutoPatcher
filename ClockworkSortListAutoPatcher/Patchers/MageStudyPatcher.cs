@@ -159,7 +159,8 @@ public partial class MageStudyPatcher(
             BookLetterU: new(GetFormListOverride(ClockworkFormLists.MageStudyRoom.BookLetter.U), false),
             BookLetterV: new(GetFormListOverride(ClockworkFormLists.MageStudyRoom.BookLetter.V), false),
             BookLetterWX: new(GetFormListOverride(ClockworkFormLists.MageStudyRoom.BookLetter.WX), false),
-            BookLetterYZ: new(GetFormListOverride(ClockworkFormLists.MageStudyRoom.BookLetter.YZ), false)
+            BookLetterYZ: new(GetFormListOverride(ClockworkFormLists.MageStudyRoom.BookLetter.YZ), false),
+            Scrolls: new(GetFormListOverride(ClockworkFormLists.MageStudyRoom.Scrolls), false)
         );
 
         MageStudyRoomFormListOverride = new(GetFormListOverride(ClockworkFormLists.Rooms.MageStudy), false);
@@ -226,8 +227,7 @@ public partial class MageStudyPatcher(
             State.PatchMod.FormLists.Set(MageStudyRoomFormListOverride.FormList);
         }
 
-        foreach (var formListOverride in FormListOverrides.GetType().GetProperties())
-        {
+        foreach (var formListOverride in FormListOverrides.GetType().GetProperties()) {
             var overrideValue = (FormListOverride)formListOverride.GetValue(FormListOverrides)!;
 
             if (overrideValue.Overriden)
@@ -237,12 +237,12 @@ public partial class MageStudyPatcher(
         }
     }
 
-    private void AddScrollToFormList(IBookGetter scroll)
+    private void AddScrollToFormList(IScrollGetter scroll)
     {
-        if (!FormListOverrides.BookSpellTomes.FormList.Items.Contains(scroll.FormKey))
+        if (!FormListOverrides.Scrolls.FormList.Items.Contains(scroll.FormKey))
         {
-            FormListOverrides.BookSpellTomes.FormList.Items.Add(scroll.FormKey);
-            FormListOverrides.BookSpellTomes.Overriden = true;
+            FormListOverrides.Scrolls.FormList.Items.Add(scroll.FormKey);
+            FormListOverrides.Scrolls.Overriden = true;
         }
 
         TryAddToMageStudyRoomFormList(scroll.FormKey);
@@ -314,8 +314,8 @@ public partial class MageStudyPatcher(
 
     private void PatchScrolls()
     {
-        var scrollCondition = (IBookGetter book) => book.Keywords?.Contains(Skyrim.Keyword.VendorItemScroll) ?? false;
-        var scrolls = State.LoadOrder.PriorityOrder.WinningOverrides<IBookGetter>().Where(scrollCondition).ToList();
+        var scrollCondition = (IScrollGetter scroll) => scroll.Keywords?.Contains(Skyrim.Keyword.VendorItemScroll) ?? false;
+        var scrolls = State.LoadOrder.PriorityOrder.WinningOverrides<IScrollGetter>().Where(scrollCondition).ToList();
 
         scrolls.ForEach(AddScrollToFormList);
     }

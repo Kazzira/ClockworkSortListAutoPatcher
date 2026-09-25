@@ -27,6 +27,7 @@ internal record MageStudyRoomFormListOverrides(
     FormListOverride AlchemyIngredients,
     FormListOverride BookSpellTomes,
     FormListOverride BookNotes,
+    FormListOverride Scrolls,
     FormListOverride SoulGemsEmpty,
     FormListOverride SoulGemsFilled,
     FormListOverride BookLetterA,
