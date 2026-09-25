@@ -42,6 +42,9 @@ public partial class MageStudyPatcher(
 
     [GeneratedRegex(@"^19([0-9]{3})*(\D.*$|$)")]
     private static partial Regex NineteenMatchRegex();
+    
+    [GeneratedRegex(@"^( |<)*([A-Z0-9a-z]+.*$)")]
+    private static partial Regex BookNameRegex();
 
 
     private bool HasError = false;
@@ -57,6 +60,15 @@ public partial class MageStudyPatcher(
             HasError = true;
             return FormListOverrides.BookLetterYZ;
         }
+
+        var match = BookNameRegex().Match(bookName);
+
+        if (!match.Success)
+        {
+            return Error($"Book name '{bookName}' does not match the expected pattern.");
+        }
+
+        bookName = match.Groups[2].Value;
 
         return bookName.ToUpper() switch
         {
